@@ -1,0 +1,19 @@
+{
+  "name": "@docs-platform/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/demo-api/start.js"
+  },
+  "dependencies": {
+    "@docs-platform/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.2"
+  }
+}

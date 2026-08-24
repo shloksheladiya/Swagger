@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* Tailwind v4's automatic content detection does NOT reach across the pnpm
+   workspace symlink boundary into sibling packages — verified empirically:
+   without this, classes used only inside @docs-platform/react-renderer's
+   components compile with zero errors but generate NO css at all, silently.
+   This must point at the real filesystem path, not the symlinked
+   node_modules path (Tailwind's default node_modules exclusion would skip it
+   there anyway). Add another @source line here for each workspace package
+   that contributes Tailwind classes. */
+@source "../../react-renderer/src";
+
+@import "./theme.generated.css";
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+}

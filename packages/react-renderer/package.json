@@ -1,0 +1,35 @@
+{
+  "name": "@docs-platform/react-renderer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@docs-platform/core": "workspace:*",
+    "@docs-platform/theme": "workspace:*",
+    "@tanstack/react-virtual": "^3.14.9",
+    "clsx": "^2.1.1",
+    "framer-motion": "^13.1.0",
+    "react-markdown": "^10.1.0",
+    "shiki": "^4.4.2",
+    "tailwind-merge": "^3.6.0",
+    "zustand": "^5.0.14"
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^19.0.0",
+    "jsdom": "^30.0.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "docs-platform",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Custom API documentation platform (OpenAPI 3.0/3.1) — inspired by Swagger UI, built for full customization.",
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "clean": "tsc -b tsconfig.json --clean",
+    "test": "vitest run",
+    "boundaries": "pnpm run build && depcruise packages --config .dependency-cruiser.cjs",
+    "dev": "pnpm run build && pnpm --filter @docs-platform/docs-app run dev",
+    "app:build": "pnpm run build && pnpm --filter @docs-platform/docs-app run build",
+    "demo-api": "pnpm run build && pnpm --filter @docs-platform/server run start"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "dependency-cruiser": "^18.1.0",
+    "typescript": "^5.6.0",
+    "vitest": "^4.1.10"
+  }
+}
