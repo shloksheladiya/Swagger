@@ -1,223 +1,430 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.0.3",
   "info": {
-    "title": "Example Docs API",
+    "title": "JSONPlaceholder REST Albums Posts API",
+    "description": "JSONPlaceholder is a free, no-auth fake REST API for prototyping, testing, and teaching. It exposes six relational resources — posts, comments, albums, photos, todos, and users — over standard REST routes (GET, POST, PUT, PATCH, DELETE). Write operations are simulated: the service responds as though the change succeeded, but no data is persisted on the server. The service is powered by the open-source json-server engine, also by typicode.",
     "version": "1.0.0",
-    "description": "A small real OpenAPI document driving this docs app end to end."
+    "contact": {
+      "name": "typicode",
+      "url": "https://github.com/typicode/jsonplaceholder"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/typicode/jsonplaceholder/blob/master/LICENSE"
+    },
+    "x-generated-from": "documentation",
+    "x-last-validated": "2026-05-29"
   },
   "servers": [
     {
-      "url": "http://localhost:4000/v1"
+      "url": "https://jsonplaceholder.typicode.com",
+      "description": "Public production endpoint (no authentication required)"
     }
   ],
   "tags": [
     {
-      "name": "Users",
-      "description": "User management"
-    },
-    {
-      "name": "Pets"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
+      "name": "Posts",
+      "description": "100 sample blog posts owned by users"
     }
   ],
   "paths": {
-    "/users": {
+    "/posts": {
       "get": {
-        "operationId": "listUsers",
+        "operationId": "listPosts",
+        "summary": "JSONPlaceholder List Posts",
+        "description": "Returns all 100 sample posts. Supports filtering by any field via query parameters (e.g. `?userId=1`).",
         "tags": [
-          "Users"
+          "Posts"
         ],
-        "summary": "List users",
-        "description": "Returns a **paginated** list of all users in the system.",
         "parameters": [
           {
-            "name": "limit",
+            "name": "userId",
             "in": "query",
+            "description": "Filter posts by owning user id.",
             "required": false,
-            "description": "Maximum number of results to return.",
             "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
+              "type": "integer"
+            },
+            "example": 1
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Filter posts by post id.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
           }
         ],
         "responses": {
           "200": {
-            "description": "A list of users",
+            "description": "Array of posts.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/Post"
                   }
                 }
               }
             }
           }
+        },
+        "x-microcks-operation": {
+          "delay": 0,
+          "dispatcher": "FALLBACK"
         }
       },
       "post": {
-        "operationId": "createUser",
+        "operationId": "createPost",
+        "summary": "JSONPlaceholder Create Post",
+        "description": "Creates a new post. Returns the created post with a generated id, but no data is actually persisted on the server.",
         "tags": [
-          "Users"
+          "Posts"
         ],
-        "summary": "Create user",
-        "description": "Creates a new user account.",
-        "security": [],
         "requestBody": {
           "required": true,
+          "description": "New post payload.",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewUser"
-              },
-              "example": {
-                "email": "new-user@example.com",
-                "name": "Ada Lovelace"
+                "$ref": "#/components/schemas/PostInput"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "The created user",
+            "description": "Created post (simulated, not persisted).",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Post"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Invalid input"
           }
+        },
+        "x-microcks-operation": {
+          "delay": 0,
+          "dispatcher": "FALLBACK"
         }
       }
     },
-    "/users/{userId}": {
+    "/posts/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Post identifier (1-100).",
+          "schema": {
+            "type": "integer"
+          },
+          "example": 1
+        }
+      ],
       "get": {
-        "operationId": "getUser",
+        "operationId": "getPost",
+        "summary": "JSONPlaceholder Get Post",
+        "description": "Returns a single post by id.",
         "tags": [
-          "Users"
-        ],
-        "summary": "Get user by ID",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "description": "ID of the user to fetch.",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
+          "Posts"
         ],
         "responses": {
           "200": {
-            "description": "The requested user",
+            "description": "A single post.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Post"
                 }
               }
             }
           },
           "404": {
-            "description": "User not found"
+            "description": "Post not found."
           }
+        },
+        "x-microcks-operation": {
+          "delay": 0,
+          "dispatcher": "FALLBACK"
+        }
+      },
+      "put": {
+        "operationId": "replacePost",
+        "summary": "JSONPlaceholder Replace Post",
+        "description": "Replaces a post in full. Returns the updated post but no data is actually persisted on the server.",
+        "tags": [
+          "Posts"
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Full replacement payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated post (simulated, not persisted).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        },
+        "x-microcks-operation": {
+          "delay": 0,
+          "dispatcher": "FALLBACK"
+        }
+      },
+      "patch": {
+        "operationId": "updatePost",
+        "summary": "JSONPlaceholder Update Post",
+        "description": "Partially updates a post. Returns the merged post but no data is actually persisted on the server.",
+        "tags": [
+          "Posts"
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Partial update payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated post (simulated, not persisted).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        },
+        "x-microcks-operation": {
+          "delay": 0,
+          "dispatcher": "FALLBACK"
+        }
+      },
+      "delete": {
+        "operationId": "deletePost",
+        "summary": "JSONPlaceholder Delete Post",
+        "description": "Deletes a post. Returns an empty object but no data is actually deleted on the server.",
+        "tags": [
+          "Posts"
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion accepted (simulated, not persisted).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "x-microcks-operation": {
+          "delay": 0,
+          "dispatcher": "FALLBACK"
         }
       }
     },
-    "/pets": {
+    "/posts/{id}/comments": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Post identifier.",
+          "schema": {
+            "type": "integer"
+          },
+          "example": 1
+        }
+      ],
       "get": {
-        "operationId": "listPets",
+        "operationId": "listPostComments",
+        "summary": "JSONPlaceholder List Post Comments",
+        "description": "Returns all comments belonging to a single post.",
         "tags": [
-          "Pets"
+          "Posts"
         ],
-        "summary": "List pets",
-        "security": [],
         "responses": {
           "200": {
-            "description": "A list of pets",
+            "description": "Array of comments for the post.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Pet"
+                    "$ref": "#/components/schemas/Comment"
                   }
                 }
               }
             }
           }
+        },
+        "x-microcks-operation": {
+          "delay": 0,
+          "dispatcher": "FALLBACK"
+        }
+      }
+    },
+    "/users/{id}/posts": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "User identifier.",
+          "schema": {
+            "type": "integer"
+          },
+          "example": 1
+        }
+      ],
+      "get": {
+        "operationId": "listUserPosts",
+        "summary": "JSONPlaceholder List User Posts",
+        "description": "Returns all posts authored by a single user.",
+        "tags": [
+          "Posts"
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of posts for the user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-microcks-operation": {
+          "delay": 0,
+          "dispatcher": "FALLBACK"
         }
       }
     }
   },
   "components": {
     "schemas": {
-      "User": {
+      "Post": {
         "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-      "NewUser": {
-        "type": "object",
+        "description": "A sample blog post owned by a user.",
         "required": [
-          "email"
+          "id",
+          "userId",
+          "title",
+          "body"
         ],
         "properties": {
-          "email": {
-            "type": "string",
-            "format": "email"
+          "id": {
+            "type": "integer",
+            "description": "Unique post identifier (1-100).",
+            "example": 1
           },
-          "name": {
-            "type": "string"
+          "userId": {
+            "type": "integer",
+            "description": "Identifier of the user who authored the post (1-10).",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "description": "Post title.",
+            "example": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit"
+          },
+          "body": {
+            "type": "string",
+            "description": "Post body / content.",
+            "example": "quia et suscipit suscipit recusandae consequuntur expedita et cum"
           }
         }
       },
-      "Pet": {
+      "PostInput": {
         "type": "object",
+        "description": "Payload for creating or partially updating a post.",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "description": "Identifier of the user who authored the post.",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "description": "Post title.",
+            "example": "My New Post"
+          },
+          "body": {
+            "type": "string",
+            "description": "Post body / content.",
+            "example": "This is the body of my new post."
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "description": "A sample comment attached to a post.",
+        "required": [
+          "id",
+          "postId",
+          "name",
+          "email",
+          "body"
+        ],
         "properties": {
           "id": {
-            "type": "string",
-            "format": "uuid"
+            "type": "integer",
+            "description": "Unique comment identifier (1-500).",
+            "example": 1
+          },
+          "postId": {
+            "type": "integer",
+            "description": "Identifier of the post this comment belongs to.",
+            "example": 1
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Display name / subject of the comment.",
+            "example": "id labore ex et quam laborum"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the commenter.",
+            "example": "Eliseo@gardner.biz"
+          },
+          "body": {
+            "type": "string",
+            "description": "Comment body text.",
+            "example": "laudantium enim quasi est quidem magnam voluptate ipsam eos tempora quo necessitatibus"
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      },
-      "apiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "X-API-Key"
       }
     }
   }

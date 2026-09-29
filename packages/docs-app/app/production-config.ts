@@ -15,14 +15,16 @@
 // relative path automatically, so this fetch is same-origin — no CORS
 // configuration needed.
 //
-// public/openapi.json is a byte-for-byte JSON export of
-// example-openapi-spec.ts's `exampleOpenApiSpec` object (the same document
-// sunnyLabsConfig/acmeConfig already drive via `{type: "inline"}`) — reusing
-// existing, already-tested content rather than authoring a new example
-// document, since this pass is about the *configuration workflow*, not a
-// new spec. `servers[0].url` in that document points at the local demo API
-// (packages/server/src/demo-api, started via `pnpm demo-api`), so Try It Out
-// has a real backend to talk to.
+// public/openapi.json is a byte-for-byte copy of
+// packages/core/test-fixtures/jsonplaceholder-posts-openapi.json — the same
+// real, third-party JSONPlaceholder document already covered by core's
+// parse-openapi-document.test.ts and the JSONPlaceholder QA pass. It is
+// bundled rather than fetched from GitHub so the deployed site doesn't depend
+// on a third party's repo at runtime. `servers[0].url` in that document is
+// the public https://jsonplaceholder.typicode.com API (no auth, CORS-enabled,
+// writes simulated), so Try It Out works for any visitor — unlike the local
+// demo API (packages/server, `pnpm demo-api`), which only a developer running
+// it on their own machine can reach.
 //
 // A genuinely external, company-hosted document works the same way — just
 // swap `value` for a real `https://company.example/openapi.json` URL. The
@@ -32,7 +34,7 @@
 // not implement any CORS workaround/proxy for that case — see
 // load-spec-from-source.ts's own comment on the "url" branch.
 export const productionConfig = {
-  branding: { title: "Sunny Labs API" },
+  branding: { title: "JSONPlaceholder API Docs" },
   specSource: { type: "url", value: "/openapi.json" },
   layout: { sidebarPosition: "left" },
   features: { search: true, tryItOut: true },
