@@ -3,6 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "description": "Custom API documentation platform (OpenAPI 3.0/3.1) — inspired by Swagger UI, built for full customization.",
+  "license": "MIT",
+  "author": "Shlok Sheladiya",
+  "homepage": "https://swagger-docs-app-shlok-696f.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shloksheladiya/Swagger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shloksheladiya/Swagger/issues"
+  },
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "clean": "tsc -b tsconfig.json --clean",
